@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>远程协助操作指引 · 春晨懂电脑</title>
+<style>
+  :root{
+    --brand:#2563eb;
+    --brand-dark:#1e40af;
+    --ink:#0f172a;
+    --muted:#64748b;
+    --bg:#f1f5f9;
+    --card:#ffffff;
+    --line:#e2e8f0;
+    --accent:#f59e0b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--brand);text-decoration:none;}
+
+  /* ===== 头部 ===== */
+  header{
+    background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 60%,#3b82f6 100%);
+    color:#fff;
+    text-align:center;
+    padding:48px 20px 56px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.16),transparent 42%),
+               radial-gradient(circle at 80% 30%,rgba(255,255,255,.10),transparent 38%);
+    pointer-events:none;
+  }
+  .badge{
+    display:inline-block;
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.35);
+    color:#fff;
+    font-size:14px;
+    padding:5px 14px;
+    border-radius:999px;
+    margin-bottom:16px;
+    position:relative;
+    z-index:1;
+    letter-spacing:1px;
+  }
+  header h1{
+    font-size:clamp(26px,5vw,44px);
+    font-weight:800;
+    letter-spacing:2px;
+    position:relative;
+    z-index:1;
+  }
+  header .brand{color:#ffd76a;}
+  header p.sub{
+    margin-top:12px;
+    font-size:clamp(15px,2.4vw,18px);
+    opacity:.92;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ===== 三栏布局 ===== */
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(230px,1fr) minmax(380px,1.6fr) minmax(230px,1fr);
+    gap:24px;
+    max-width:1360px;
+    margin:0 auto;
+    padding:28px 20px 72px;
+  }
+  .col{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    min-width:0;
+    align-self:start;
+  }
+  .col-fee,
+  .col-tips{
+    position:sticky;
+    top:16px;
+  }
+
+  /* ===== 卡片 ===== */
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:26px 22px;
+    box-shadow:0 8px 24px rgba(15,23,42,.05);
+  }
+  .section-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .num{
+    flex:none;
+    width:38px;height:38px;
+    border-radius:11px;
+    background:linear-gradient(135deg,var(--brand),#3b82f6);
+    color:#fff;
+    font-weight:800;
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+    box-shadow:0 4px 12px rgba(37,99,235,.35);
+  }
+  .section-head h2{
+    font-size:clamp(19px,2.5vw,23px);
+    font-weight:800;
+  }
+  .section-head .tag{
+    margin-left:auto;
+    font-size:12px;
+    color:var(--brand);
+    background:#eff6ff;
+    border:1px solid #dbeafe;
+    padding:3px 10px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+
+  /* ===== 步骤 ===== */
+  .steps{counter-reset:step;}
+  .step{
+    display:flex;
+    gap:14px;
+    padding:16px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .step:last-child{border-bottom:none;}
+  .step .dot{
+    flex:none;
+    width:42px;height:42px;
+    border-radius:50%;
+    background:#eff6ff;
+    color:var(--brand);
+    font-weight:800;
+    font-size:17px;
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid #dbeafe;
+  }
+  .step h3{font-size:16px;margin-bottom:3px;}
+  .step p{color:var(--muted);font-size:14px;}
+
+  /* ===== 按钮 ===== */
+  .btn{
+    display:inline-block;
+    background:linear-gradient(135deg,var(--brand),#3b82f6);
+    color:#fff;
+    font-weight:700;
+    font-size:16px;
+    padding:14px 28px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(37,99,235,.35);
+    transition:transform .15s ease, box-shadow .15s ease;
+    text-align:center;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(37,99,235,.45);}
+  .btn:active{transform:translateY(0);}
+  .btn-wrap{text-align:center;margin:10px 0 4px;}
+
+  /* ===== 图片 ===== */
+  .shot{
+    display:block;
+    width:100%;
+    margin:16px auto 0;
+    border-radius:14px;
+    border:1px solid var(--line);
+    box-shadow:0 10px 30px rgba(15,23,42,.12);
+  }
+  .caption{
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    margin-top:10px;
+  }
+  .pay{
+    display:block;
+    width:100%;
+    margin:0 auto;
+    border-radius:14px;
+    border:1px solid var(--line);
+    box-shadow:0 10px 28px rgba(15,23,42,.10);
+  }
+  .fee{
+    display:block;
+    width:100%;
+    margin:0 auto;
+    border-radius:14px;
+    border:1px solid var(--line);
+    box-shadow:0 10px 28px rgba(15,23,42,.10);
+  }
+  .zoom-link{display:block;}
+
+  .note{
+    padding:16px 16px;
+    background:#fffbeb;
+    border:1px solid #fde68a;
+    border-radius:12px;
+    color:#92400e;
+    font-size:14px;
+  }
+  .note.blue{
+    background:#f0f9ff;
+    border-color:#bae6fd;
+    color:#075985;
+  }
+  .tip{
+    margin-top:16px;
+    padding:12px 14px;
+    background:#f0f9ff;
+    border:1px solid #bae6fd;
+    border-radius:12px;
+    color:#075985;
+    font-size:13px;
+  }
+  .muted{color:var(--muted);font-size:14px;margin-bottom:8px;}
+
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    padding:28px 16px 40px;
+    border-top:1px solid var(--line);
+    background:#fff;
+  }
+  footer .brand{color:var(--brand);font-weight:700;}
+
+  /* ===== 响应式 ===== */
+  @media (max-width:1080px){
+    .layout{grid-template-columns:1fr;max-width:760px;}
+    .col-fee,.col-tips{position:static;}
+    .col-fee{order:2;}
+    .col-main{order:1;}
+    .col-tips{order:3;}
+  }
+  @media (max-width:520px){
+    .card{padding:22px 18px;}
+    .section-head .tag{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">远程协助 · 专业服务</div>
+  <h1>远程协助 <span class="brand">操作指引</span></h1>
+  <p class="sub">春晨懂电脑 · 足不出户，快速解决电脑问题</p>
+</header>
+
+<main class="layout">
+
+  <!-- ============ 左栏：收费标准 ============ -->
+  <aside class="col col-fee">
+    <section class="card">
+      <div class="section-head">
+        <div class="num">¥</div>
+        <h2>收费标准</h2>
+      </div>
+      <p class="muted">透明计价，先沟通后服务，绝无隐形消费。</p>
+      <a class="zoom-link" href="3.jpg" target="_blank" rel="noopener noreferrer" title="点击查看大图">
+        <img class="fee" src="3.jpg" alt="收费标准">
+      </a>
+      <div class="caption">点击图片可查看大图</div>
+    </section>
+  </aside>
+
+  <!-- ============ 中栏：下载步骤 + 赞赏 ============ -->
+  <div class="col col-main">
+
+    <!-- 第一步：下载 -->
+    <section class="card">
+      <div class="section-head">
+        <div class="num">1</div>
+        <h2>下载「UU远程」精简版</h2>
+        <span class="tag">免费 · 无需安装</span>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="dot">①</div>
+          <div>
+            <h3>点击下方按钮进入官网</h3>
+            <p>访问网易 UU远程 官网，下载「UU远程 精简版」（SOS 版）。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="dot">②</div>
+          <div>
+            <h3>下载并保存到桌面</h3>
+            <p>下载完成后，文件会保存在你的「下载」或「桌面」目录中。</p>
+          </div>
+        </div>
+      </div>
+      <div class="btn-wrap">
+        <a class="btn" href="https://uuyc.163.com/features/sos/" target="_blank" rel="noopener noreferrer">前往下载 UU远程 精简版 ↗</a>
+      </div>
+      <div class="tip">如果按钮无法打开，请将网址 <strong>https://uuyc.163.com/features/sos/</strong> 复制到浏览器地址栏打开。</div>
+    </section>
+
+    <!-- 第二步：打开 -->
+    <section class="card">
+      <div class="section-head">
+        <div class="num">2</div>
+        <h2>双击打开软件</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="dot">①</div>
+          <div>
+            <h3>找到刚下载的文件</h3>
+            <p>打开你的「下载」或「桌面」文件夹，找到 UU远程 精简版程序。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="dot">②</div>
+          <div>
+            <h3>双击运行</h3>
+            <p>双击打开即可，<strong>无需安装</strong>，即点即用。如弹出安全提示，请选择「运行」或「允许」。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 第三步：提供截图 -->
+    <section class="card">
+      <div class="section-head">
+        <div class="num">3</div>
+        <h2>把设备码截图发给我</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="dot">①</div>
+          <div>
+            <h3>查看设备识别码</h3>
+            <p>软件打开后，界面上会显示一串 <strong>设备识别码</strong>（数字编号）。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="dot">②</div>
+          <div>
+            <h3>截图并发送</h3>
+            <p>将整个界面截图，通过微信发给我即可，我会立刻帮你远程处理。</p>
+          </div>
+        </div>
+      </div>
+      <a class="zoom-link" href="1.png" target="_blank" rel="noopener noreferrer" title="点击查看大图">
+        <img class="shot" src="1.png" alt="设备识别码示例截图">
+      </a>
+      <div class="caption">↑ 示例：像这样把带有设备码的界面截图发给我</div>
+    </section>
+
+    <!-- 赞赏支持 -->
+    <section class="card">
+      <div class="section-head">
+        <div class="num">♥</div>
+        <h2>赞赏支持</h2>
+      </div>
+      <p class="muted">如果我的服务对你有帮助，欢迎扫码赞赏，感谢你的支持！</p>
+      <a class="zoom-link" href="2.jpeg" target="_blank" rel="noopener noreferrer" title="点击查看大图">
+        <img class="pay" src="2.jpeg" alt="微信与支付宝收款码">
+      </a>
+      <div class="caption">微信 / 支付宝 收款码，感谢支持</div>
+    </section>
+
+  </div>
+
+  <!-- ============ 右栏：温馨提示 + 操作提示 ============ -->
+  <aside class="col col-tips">
+    <div class="note">
+      <strong>温馨提示：</strong>远程服务不会窃取您的个人隐私信息，请您放心远程。为了保护你我之间的合法权益，本次远程服务将全程录屏，感谢您的配合。
+    </div>
+    <div class="note blue">
+      <strong>操作提示：</strong>远程操作过程中请保持软件处于开启状态，不要关闭窗口；操作全程透明，你可以随时终止远程连接。
+    </div>
+  </aside>
+
+</main>
+
+<footer>
+  自媒体账号：<span class="brand">春晨懂电脑</span> · 用心解决每一个电脑问题
+</footer>
+
+</body>
+</html>
