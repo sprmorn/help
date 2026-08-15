@@ -88,8 +88,7 @@
     min-width:0;
     align-self:start;
   }
-  .col-fee,
-  .col-tips{
+  .col-fee{
     position:sticky;
     top:16px;
   }
@@ -220,6 +219,19 @@
     border-color:#bae6fd;
     color:#075985;
   }
+  .note.red{
+    background:#fef2f2;
+    border-color:#fecaca;
+    color:#b91c1c;
+  }
+  .warn-list{
+    margin:8px 0 0;
+    padding-left:18px;
+    list-style:disc;
+    font-size:13px;
+    line-height:1.7;
+  }
+  .warn-list li{margin:4px 0;}
   .tip{
     margin-top:16px;
     padding:12px 14px;
@@ -231,6 +243,43 @@
   }
   .muted{color:var(--muted);font-size:14px;margin-bottom:8px;}
 
+  /* ===== 常用软件下载 ===== */
+  .soft-group{margin-bottom:16px;}
+  .soft-group:last-child{margin-bottom:0;}
+  .soft-group h4{
+    font-size:13px;
+    color:var(--muted);
+    font-weight:700;
+    margin-bottom:8px;
+    padding-left:10px;
+    border-left:3px solid var(--brand);
+  }
+  .soft-list{display:flex;flex-wrap:wrap;gap:8px;}
+  .soft{
+    display:inline-block;
+    font-size:13px;
+    padding:7px 13px;
+    border-radius:999px;
+    background:#f8fafc;
+    border:1px solid var(--line);
+    color:var(--ink);
+    transition:background .15s ease,color .15s ease,border-color .15s ease;
+  }
+  .soft:hover{
+    background:var(--brand);
+    border-color:var(--brand);
+    color:#fff;
+  }
+  .soft-warn{
+    margin-top:10px;
+    padding:10px 12px;
+    background:#fef2f2;
+    border:1px solid #fecaca;
+    border-radius:10px;
+    color:#b91c1c;
+    font-size:12px;
+  }
+
   footer{
     text-align:center;
     color:var(--muted);
@@ -241,11 +290,120 @@
   }
   footer .brand{color:var(--brand);font-weight:700;}
 
+  /* ===== 悬浮按钮 ===== */
+  .fab{
+    position:fixed;
+    right:20px;
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 6px 18px rgba(15,23,42,.25);
+    transition:transform .15s ease, opacity .25s ease, visibility .25s ease;
+  }
+  .fab:hover{transform:translateY(-2px);}
+  .fab-feedback{
+    bottom:86px;
+    background:linear-gradient(135deg,var(--brand),#3b82f6);
+    color:#fff;
+    font-size:14px;
+    font-weight:700;
+    padding:12px 18px;
+    border-radius:999px;
+  }
+  .fab-top{
+    bottom:20px;
+    width:44px;height:44px;
+    border-radius:50%;
+    background:#fff;
+    color:var(--brand);
+    font-size:20px;
+    font-weight:800;
+    border:1px solid var(--line);
+    opacity:0;
+    visibility:hidden;
+    cursor:pointer;
+  }
+  .fab-top.show{opacity:1;visibility:visible;}
+
+  /* ===== 反馈弹窗 ===== */
+  .modal{
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .modal.open{display:flex;}
+  .modal-mask{
+    position:absolute;
+    inset:0;
+    background:rgba(15,23,42,.55);
+  }
+  .modal-box{
+    position:relative;
+    width:100%;
+    max-width:680px;
+    max-height:90vh;
+    background:#fff;
+    border-radius:16px;
+    box-shadow:0 20px 60px rgba(15,23,42,.4);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    animation:pop .2s ease;
+  }
+  @keyframes pop{
+    from{transform:translateY(20px);opacity:0;}
+    to{transform:translateY(0);opacity:1;}
+  }
+  .modal-head{
+    flex:none;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .modal-head h3{font-size:18px;font-weight:800;}
+  .modal-close{
+    border:none;
+    background:#f1f5f9;
+    color:var(--ink);
+    width:34px;height:34px;
+    border-radius:50%;
+    font-size:22px;
+    line-height:1;
+    cursor:pointer;
+  }
+  .modal-close:hover{background:#e2e8f0;}
+  .modal-body{
+    flex:1;
+    min-height:0;
+    overflow:auto;
+  }
+  .modal-body iframe{
+    width:100%;
+    height:70vh;
+    border:none;
+    display:block;
+  }
+  .modal-fallback{
+    padding:10px 14px;
+    text-align:center;
+    font-size:13px;
+    color:var(--muted);
+    border-top:1px solid var(--line);
+    background:#f8fafc;
+  }
+  body.modal-open{overflow:hidden;}
+
   /* ===== 响应式 ===== */
   @media (max-width:1080px){
     .layout{grid-template-columns:1fr;max-width:760px;}
-    .col-fee,.col-tips{position:static;}
-    .col-fee{order:2;}
+    .col-fee{position:static;order:2;}
     .col-main{order:1;}
     .col-tips{order:3;}
   }
@@ -280,7 +438,7 @@
     </section>
   </aside>
 
-  <!-- ============ 中栏：下载步骤 + 赞赏 ============ -->
+  <!-- ============ 中栏：下载步骤 + 联系我 + 赞赏 ============ -->
   <div class="col col-main">
 
     <!-- 第一步：下载 -->
@@ -364,6 +522,19 @@
       <div class="caption">↑ 示例：像这样把带有设备码的界面截图发给我</div>
     </section>
 
+    <!-- 联系我 -->
+    <section class="card">
+      <div class="section-head">
+        <div class="num">✉</div>
+        <h2>联系我</h2>
+      </div>
+      <p class="muted">扫码或搜索添加，添加后把设备码截图发给我即可。</p>
+      <a class="zoom-link" href="4.jpg" target="_blank" rel="noopener noreferrer" title="点击查看大图">
+        <img class="pay" src="4.jpg" alt="抖音与微信联系方式">
+      </a>
+      <div class="caption">抖音 / 微信 联系方式，点击可查看大图</div>
+    </section>
+
     <!-- 赞赏支持 -->
     <section class="card">
       <div class="section-head">
@@ -377,6 +548,18 @@
       <div class="caption">微信 / 支付宝 收款码，感谢支持</div>
     </section>
 
+    <!-- 用户反馈 -->
+    <section class="card">
+      <div class="section-head">
+        <div class="num">★</div>
+        <h2>用户反馈</h2>
+      </div>
+      <p class="muted">觉得这个指引网站好用吗？欢迎花 1 分钟填写反馈，帮助我改进体验。</p>
+      <div class="btn-wrap">
+        <a class="btn" href="https://v.wjx.cn/vm/YWoNvcR.aspx#" data-open-feedback>填写使用体验反馈</a>
+      </div>
+    </section>
+
   </div>
 
   <!-- ============ 右栏：温馨提示 + 操作提示 ============ -->
@@ -387,6 +570,124 @@
     <div class="note blue">
       <strong>操作提示：</strong>远程操作过程中请保持软件处于开启状态，不要关闭窗口；操作全程透明，你可以随时终止远程连接。
     </div>
+
+    <div class="note red">
+      <strong>防骗提醒：</strong>
+      <ul class="warn-list">
+        <li>只从软件官网或本页「常用软件下载」的官方链接下载，避开第三方下载站。</li>
+        <li>警惕「高速下载」「破解版」「绿色版」等诱饵，这些往往捆绑病毒或流氓软件。</li>
+        <li>安装时留意勾选项，取消捆绑安装；认准官网域名，谨防假冒网站。</li>
+        <li>不点击来路不明的短信、邮件、弹窗链接；遇到「系统已中毒」等吓唬弹窗立即关闭，切勿拨打其中电话。</li>
+        <li>认准官方网站：官网页面底端通常有「ICP 备案」信息，而高仿 / 假冒网页往往缺失。</li>
+      </ul>
+    </div>
+
+    <!-- 常用软件下载 -->
+    <section class="card">
+      <div class="section-head">
+        <div class="num">⇩</div>
+        <h2>常用软件下载</h2>
+      </div>
+      <p class="muted">以下均为官方下载地址，点击即可跳转。</p>
+
+      <div class="soft-group">
+        <h4>即时通讯</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://im.qq.com/index/#/windows" target="_blank" rel="noopener noreferrer">QQ</a>
+          <a class="soft" href="https://pc.weixin.qq.com/" target="_blank" rel="noopener noreferrer">微信</a>
+        </div>
+      </div>
+
+      <div class="soft-group">
+        <h4>浏览器</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://www.google.cn/chrome/index.html" target="_blank" rel="noopener noreferrer">谷歌浏览器</a>
+          <a class="soft" href="https://www.firefox.com/zh-CN/" target="_blank" rel="noopener noreferrer">火狐浏览器</a>
+        </div>
+      </div>
+
+      <div class="soft-group">
+        <h4>音乐</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://www.qishui.com/" target="_blank" rel="noopener noreferrer">汽水音乐</a>
+          <a class="soft" href="https://y.qq.com/download/index.html" target="_blank" rel="noopener noreferrer">QQ音乐</a>
+          <a class="soft" href="https://download.kugou.com/" target="_blank" rel="noopener noreferrer">酷狗音乐</a>
+          <a class="soft" href="https://music.163.com/#/download" target="_blank" rel="noopener noreferrer">网易云音乐</a>
+        </div>
+      </div>
+
+      <div class="soft-group">
+        <h4>视频 / 娱乐</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://www.douyin.com/" target="_blank" rel="noopener noreferrer">抖音</a>
+          <a class="soft" href="https://app.bilibili.com/" target="_blank" rel="noopener noreferrer">哔哩哔哩</a>
+          <a class="soft" href="https://pc.qq.com/detail/19/detail_519.html" target="_blank" rel="noopener noreferrer">PotPlayer 播放器</a>
+        </div>
+      </div>
+
+      <div class="soft-group">
+        <h4>办公</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://platform.wps.cn/" target="_blank" rel="noopener noreferrer">WPS Office</a>
+        </div>
+      </div>
+
+      <div class="soft-group">
+        <h4>输入法</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://shurufa.sogou.com/windows" target="_blank" rel="noopener noreferrer">搜狗输入法</a>
+          <a class="soft" href="https://z.weixin.qq.com/" target="_blank" rel="noopener noreferrer">微信输入法</a>
+        </div>
+      </div>
+
+      <div class="soft-group">
+        <h4>压缩解压</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://www.bandisoft.com/bandizip/" target="_blank" rel="noopener noreferrer">Bandizip</a>
+        </div>
+      </div>
+
+      <div class="soft-group">
+        <h4>安全防护</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://www.huorong.cn/person" target="_blank" rel="noopener noreferrer">火绒安全</a>
+        </div>
+      </div>
+
+      <div class="soft-group">
+        <h4>网盘</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://pan.baidu.com/download#win" target="_blank" rel="noopener noreferrer">百度网盘</a>
+          <a class="soft" href="https://pan.quark.cn/" target="_blank" rel="noopener noreferrer">夸克网盘</a>
+          <a class="soft" href="https://www.alipan.com/" target="_blank" rel="noopener noreferrer">阿里云盘</a>
+        </div>
+      </div>
+
+      <div class="soft-group">
+        <h4>游戏平台</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://store.steampowered.com/about/" target="_blank" rel="noopener noreferrer">Steam</a>
+          <a class="soft" href="https://www.wegame.com.cn/home/" target="_blank" rel="noopener noreferrer">WeGame</a>
+        </div>
+      </div>
+
+      <div class="soft-group">
+        <h4>AI 助手</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://www.doubao.com/chat/" target="_blank" rel="noopener noreferrer">豆包</a>
+          <a class="soft" href="https://www.qianwen.com/" target="_blank" rel="noopener noreferrer">千问</a>
+          <a class="soft" href="https://chat.deepseek.com/" target="_blank" rel="noopener noreferrer">DeepSeek</a>
+        </div>
+        <div class="soft-warn">⚠ DeepSeek 官方没有电脑客户端，仅提供网页版；网上出现的「DeepSeek 客户端 / 安装包」多为假冒或病毒，请仅通过官网网页使用。</div>
+      </div>
+
+      <div class="soft-group">
+        <h4>会议 / 通讯</h4>
+        <div class="soft-list">
+          <a class="soft" href="https://meeting.tencent.com/" target="_blank" rel="noopener noreferrer">腾讯会议</a>
+        </div>
+      </div>
+    </section>
   </aside>
 
 </main>
@@ -394,6 +695,75 @@
 <footer>
   自媒体账号：<span class="brand">春晨懂电脑</span> · 用心解决每一个电脑问题
 </footer>
+
+<!-- 悬浮按钮 -->
+<a class="fab fab-feedback" href="https://v.wjx.cn/vm/YWoNvcR.aspx#" data-open-feedback>反馈</a>
+<button class="fab fab-top" id="backTop" type="button" title="回到顶部" aria-label="回到顶部">↑</button>
+
+<!-- 反馈弹窗 -->
+<div class="modal" id="feedbackModal" aria-hidden="true">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>使用体验反馈</h3>
+      <button class="modal-close" type="button" data-close aria-label="关闭">×</button>
+    </div>
+    <div class="modal-body">
+      <iframe id="feedbackFrame" title="使用体验反馈问卷"></iframe>
+      <div class="modal-fallback">
+        问卷无法显示？<a href="https://v.wjx.cn/vm/YWoNvcR.aspx#" target="_blank" rel="noopener noreferrer">点击在新标签页打开</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const backTop = document.getElementById('backTop');
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 300) {
+      backTop.classList.add('show');
+    } else {
+      backTop.classList.remove('show');
+    }
+  });
+  backTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  const modal = document.getElementById('feedbackModal');
+  const frame = document.getElementById('feedbackFrame');
+  const surveyUrl = 'https://v.wjx.cn/vm/YWoNvcR.aspx#';
+
+  function openModal() {
+    if (!frame.getAttribute('src')) {
+      frame.setAttribute('src', surveyUrl);
+    }
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+
+  document.querySelectorAll('[data-open-feedback]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      openModal();
+    });
+  });
+  document.querySelectorAll('[data-close]').forEach(function (el) {
+    el.addEventListener('click', closeModal);
+  });
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+</script>
 
 </body>
 </html>
